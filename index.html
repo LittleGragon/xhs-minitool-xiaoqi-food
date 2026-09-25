@@ -10,26 +10,6 @@
 <body>
   <div class="app" id="app">
 
-    <!-- 顶部导航栏 -->
-    <header class="topbar" id="topbar">
-      <div class="topbar__left">
-        <div class="topbar__back" id="back-btn" style="display:none;">‹</div>
-        <span style="font-size:20px;">📔</span>
-        <div class="topbar__title-group">
-          <span class="topbar__title">小齐食单</span>
-          <span class="topbar__subtitle" id="topbar-subtitle">Home</span>
-        </div>
-      </div>
-      <div class="topbar__right">
-        <div class="topbar__actions">
-          <div class="topbar__action-btn">↗</div>
-          <div class="topbar__divider"></div>
-          <div class="topbar__action-btn" id="close-btn">✕</div>
-        </div>
-        <div class="topbar__avatar">👤</div>
-      </div>
-    </header>
-
     <!-- 主内容区 -->
     <main class="main" id="main">
 
@@ -148,7 +128,7 @@
             <div class="list-note__content">
               <span class="list-note__icon">✨</span>
               <p class="list-note__text">
-                每一家都是小齐自己踩雷后留下的宝藏，自费真吃，放心抄作业！🥢
+               纯属个人喜好🥢
               </p>
             </div>
           </div>
@@ -170,7 +150,7 @@
         <div class="list-footer">
           <div class="list-footer__badge">
             <span class="list-footer__icon">✍️</span>
-            <span class="list-footer__text">持续更新中...小齐每周都会去探索 2 家新店</span>
+            <span class="list-footer__text">持续更新中...不定期探店</span>
           </div>
         </div>
       </section>
@@ -244,6 +224,10 @@
         <div class="tabbar__item" data-tab="list" onclick="switchTab('list')">
           <span class="tabbar__icon">📖</span>
           <span>全部食单</span>
+        </div>
+        <div class="tabbar__item" data-tab="city" onclick="openCityPage()">
+          <span class="tabbar__icon">🗺️</span>
+          <span>足迹地图</span>
         </div>
       </div>
     </nav>

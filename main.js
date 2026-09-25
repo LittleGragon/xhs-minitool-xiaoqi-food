@@ -343,8 +343,9 @@
     var container = $('city-list');
     var currentKey = state.currentCity;
 
+    // 只显示有餐厅的城市（count > 0）
     var otherCities = XIAOQI_DATA.cities.filter(function(c) {
-      return c.key !== currentKey;
+      return c.key !== currentKey && c.count > 0;
     });
 
     container.innerHTML = otherCities.map(function(city) {
@@ -362,6 +363,11 @@
         '<span class="city-item__arrow">›</span>' +
       '</button>';
     }).join('');
+
+    // 如果只有当前城市有数据，显示提示
+    if (otherCities.length === 0) {
+      container.innerHTML = '<div class="city-empty">更多城市正在探索中…</div>';
+    }
   }
 
   // ===== 导航 =====
@@ -380,16 +386,12 @@
 
     if (tab === 'home') {
       $('page-home').classList.add('active');
-      $('topbar-subtitle').textContent = 'Home';
       $('tabbar').style.display = '';
       $('main').style.paddingBottom = '88px';
-      $('back-btn').style.display = 'none';
     } else if (tab === 'list') {
       $('page-list').classList.add('active');
-      $('topbar-subtitle').textContent = 'List';
       $('tabbar').style.display = '';
       $('main').style.paddingBottom = '88px';
-      $('back-btn').style.display = 'none';
       renderRestaurantList();
     }
 
@@ -405,8 +407,6 @@
     $('page-city').classList.add('active');
     $('tabbar').style.display = 'none';
     $('main').style.paddingBottom = '0';
-    $('back-btn').style.display = 'flex';
-    $('topbar-subtitle').textContent = 'City';
     renderCityList();
     $('main').scrollTop = 0;
   }
@@ -415,12 +415,6 @@
     $('page-city').classList.remove('active');
     $('tabbar').style.display = '';
     $('main').style.paddingBottom = '88px';
-    $('back-btn').style.display = 'none';
-    if (state.currentTab === 'home') {
-      $('topbar-subtitle').textContent = 'Home';
-    } else {
-      $('topbar-subtitle').textContent = 'List';
-    }
   }
 
   function selectCity(key) {
@@ -582,21 +576,6 @@
     if (searchInput) {
       searchInput.addEventListener('input', handleSearch);
     }
-
-    // 返回按钮
-    $('back-btn').addEventListener('click', function() {
-      if ($('page-city').classList.contains('active')) {
-        closeCityPage();
-      }
-    });
-
-    // 关闭按钮
-    $('close-btn').addEventListener('click', function() {
-      // 小工具环境下的关闭逻辑
-      if (window.miniTool && window.miniTool.close) {
-        window.miniTool.close();
-      }
-    });
 
     // 摇一摇
     if (window.DeviceMotionEvent) {
