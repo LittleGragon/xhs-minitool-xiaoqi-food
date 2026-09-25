@@ -190,7 +190,7 @@
         return '<span class="rest-card__tag">' + t + '</span>';
       }).join('');
 
-      return '<article class="rest-card ' + cardClass + '" onclick="openDetail(' + r.id + ')">' +
+      return '<article class="rest-card ' + cardClass + '" data-action="open-detail" data-id="' + r.id + '">' +
         '<div class="rest-card__stamp ' + stampClass + '">' + stampIcon + '</div>' +
         '<div class="rest-card__top">' +
           '<div class="rest-card__emoji-wrap">' + r.emoji + '</div>' +
@@ -227,7 +227,7 @@
 
       return '<div class="dish-item">' +
         '<div class="dish-item__left">' +
-          '<span class="dish-item__emoji">' + d.emoji + '</span>' +
+          (d.emoji ? '<span class="dish-item__emoji">' + d.emoji + '</span>' : '') +
           '<div class="dish-item__info">' +
             '<div class="dish-item__name-row">' +
               '<span class="dish-item__name">' + d.name + '</span>' +
@@ -259,10 +259,11 @@
       '<div class="detail-hero__badges">' +
         '<span class="detail-hero__badge detail-hero__badge--outline">' + r.district + '·' + r.cuisine + '</span>' +
         '<span class="detail-hero__badge detail-hero__badge--price">人均 ¥' + r.avg_price + '</span>' +
-        '<span class="detail-hero__badge detail-hero__badge--open">' +
-          '<span class="detail-hero__badge-dot"></span>' +
-          '营业中 ' + r.hours +
-        '</span>' +
+        (r.hours ?
+          '<span class="detail-hero__badge detail-hero__badge--open">' +
+            '<span class="detail-hero__badge-dot"></span>' +
+            '营业中 ' + r.hours +
+          '</span>' : '') +
       '</div>' +
     '</div>';
 
@@ -276,20 +277,22 @@
           '<span class="detail-diary__subtitle">常驻饭堂 · 真实打卡5年</span>' +
         '</div>' +
       '</div>' +
-      '<div class="detail-diary__text">' + r.full_review + '</div>' +
+      '<div class="detail-diary__text">' + (r.full_review || r.xiaoqi_said || '') + '</div>' +
     '</div>';
 
-    // 招牌必点
-    html += '<div>' +
-      '<div class="detail-section__header">' +
-        '<div class="detail-section__title">' +
-          '<span class="detail-section__title-icon">📋</span>' +
-          '<span class="detail-section__title-text">招牌必点（抄作业清单）</span>' +
+    // 小齐推荐（有推荐菜才显示）
+    if (r.signature_dishes && r.signature_dishes.length > 0) {
+      html += '<div>' +
+        '<div class="detail-section__header">' +
+          '<div class="detail-section__title">' +
+            '<span class="detail-section__title-icon">📋</span>' +
+            '<span class="detail-section__title-text">小齐推荐</span>' +
+          '</div>' +
+          '<span class="detail-section__subtitle">跟着点不踩雷</span>' +
         '</div>' +
-        '<span class="detail-section__subtitle">跟着点不踩雷</span>' +
-      '</div>' +
-      '<div class="dish-list">' + dishesHtml + '</div>' +
-    '</div>';
+        '<div class="dish-list">' + dishesHtml + '</div>' +
+      '</div>';
+    }
 
     // 实用小抄
     html += '<div class="detail-info-card">' +
@@ -305,7 +308,7 @@
           '<span class="detail-info__label">店铺地址</span>' +
           '<span class="detail-info__value">' + r.address + '</span>' +
         '</div>' +
-        '<button class="detail-info__copy-btn" onclick="copyAddress(\'' + r.address.replace(/'/g, "\\'") + ' ' + r.name.replace(/'/g, "\\'") + '\')">' +
+        '<button class="detail-info__copy-btn" data-action="copy-address">' +
           '<span>⎘</span><span>复制</span>' +
         '</button>' +
       '</div>' +
@@ -327,7 +330,7 @@
 
     // 底部按钮
     html += '<div class="detail-action">' +
-      '<button class="detail-action__btn" onclick="copyAddress(\'' + r.address.replace(/'/g, "\\'") + ' ' + r.name.replace(/'/g, "\\'") + '\')">' +
+      '<button class="detail-action__btn" data-action="copy-address">' +
         '<span>📋</span>' +
         '<span>复制地址，今天就去吃！</span>' +
         '<span>→</span>' +
@@ -349,7 +352,7 @@
     });
 
     container.innerHTML = otherCities.map(function(city) {
-      return '<button class="city-item" onclick="selectCity(\'' + city.key + '\')">' +
+      return '<button class="city-item" data-action="select-city" data-city="' + city.key + '">' +
         '<div class="city-item__left">' +
           '<div class="city-item__emoji">' + city.emoji + '</div>' +
           '<div class="city-item__info">' +
@@ -480,21 +483,35 @@
   }
 
   // ===== 复制地址 =====
+  // 容器禁用了剪贴板 API（navigator.clipboard / execCommand），
+  // 改为弹出可选中文本层，引导用户长按 / 选中手动复制。
   function copyAddress(text) {
-    // 小工具环境下可能没有 navigator.clipboard，使用 textarea 方式
-    var textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    try {
-      document.execCommand('copy');
-      showToast('地址已复制！');
-    } catch (e) {
-      showToast('复制失败，请手动复制');
+    var sheet = $('copy-sheet');
+    if (!sheet) {
+      sheet = document.createElement('div');
+      sheet.id = 'copy-sheet';
+      sheet.className = 'copy-sheet';
+      sheet.innerHTML =
+        '<div class="copy-sheet__mask" data-action="close-copy"></div>' +
+        '<div class="copy-sheet__panel">' +
+          '<div class="copy-sheet__title">复制地址</div>' +
+          '<p class="copy-sheet__hint">长按下方文本，选择「复制」</p>' +
+          '<div class="copy-sheet__text" id="copy-sheet-text"></div>' +
+          '<button class="copy-sheet__done" data-action="close-copy">知道了</button>' +
+        '</div>';
+      document.body.appendChild(sheet);
     }
-    document.body.removeChild(textarea);
+    $('copy-sheet-text').textContent = text;
+    sheet.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCopySheet() {
+    var sheet = $('copy-sheet');
+    if (sheet) sheet.classList.remove('active');
+    if (!$('detail-sheet').classList.contains('active')) {
+      document.body.style.overflow = '';
+    }
   }
 
   // ===== Toast =====
@@ -516,37 +533,60 @@
     renderRestaurantList();
   }
 
-  // ===== 摇一摇 =====
-  var lastX, lastY, lastZ;
-  var lastShakeTime = 0;
-  var SHAKE_THRESHOLD = 800;
+  // ===== 事件委托（容器禁止行内 onclick，统一用 data-action 绑定） =====
+  function bindActions() {
+    document.body.addEventListener('click', function(e) {
+      var el = e.target.closest('[data-action]');
+      if (!el) return;
+      var action = el.dataset.action;
 
-  function handleMotion(e) {
-    var current = e.accelerationIncludingGravity;
-    if (!current) return;
-
-    var currentTime = Date.now();
-    var diffTime = currentTime - lastShakeTime;
-
-    if (diffTime > 100) {
-      lastShakeTime = currentTime;
-      var speed = Math.abs(
-        (current.x || 0) + (current.y || 0) + (current.z || 0) -
-        (lastX || 0) - (lastY || 0) - (lastZ || 0)
-      ) / diffTime * 10000;
-
-      if (speed > SHAKE_THRESHOLD) {
+      if (action === 'switch-tab') {
+        switchTab(el.dataset.tab);
+      } else if (action === 'open-city') {
+        openCityPage();
+      } else if (action === 'close-city') {
+        closeCityPage();
+      } else if (action === 'go-list') {
+        goToList();
+      } else if (action === 'reroll') {
         rerollDish();
+      } else if (action === 'open-detail') {
+        openDetail(Number(el.dataset.id));
+      } else if (action === 'close-detail') {
+        closeDetail();
+      } else if (action === 'copy-address') {
+        var r = getRestaurants().find(function(x) { return x.id === state.detailRestaurantId; });
+        if (r) copyAddress(r.address + ' ' + r.name);
+      } else if (action === 'close-copy') {
+        closeCopySheet();
+      } else if (action === 'select-city') {
+        selectCity(el.dataset.city);
       }
+    });
+  }
 
-      lastX = current.x;
-      lastY = current.y;
-      lastZ = current.z;
+  // ===== Flex gap 行为检测（Chrome 61 不支持 flex gap，启用 margin 回退） =====
+  function detectFlexGap() {
+    var flex = document.createElement('div');
+    flex.style.position = 'absolute';
+    flex.style.visibility = 'hidden';
+    flex.style.display = 'flex';
+    flex.style.flexDirection = 'column';
+    flex.style.rowGap = '1px';
+    flex.appendChild(document.createElement('div'));
+    flex.appendChild(document.createElement('div'));
+    document.body.appendChild(flex);
+    var supported = flex.scrollHeight === 1;
+    flex.parentNode.removeChild(flex);
+    if (!supported) {
+      document.documentElement.classList.add('no-flex-gap');
     }
   }
 
   // ===== 初始化 =====
   function init() {
+    detectFlexGap();
+
     // 应用配置开关
     if (typeof XIAOQI_CONFIG !== 'undefined') {
       if (!XIAOQI_CONFIG.show_rating) {
@@ -577,25 +617,9 @@
       searchInput.addEventListener('input', handleSearch);
     }
 
-    // 摇一摇
-    if (window.DeviceMotionEvent) {
-      window.addEventListener('devicemotion', handleMotion);
-    }
-
-    // 详情遮罩点击关闭
-    $('detail-overlay').addEventListener('click', closeDetail);
+    // 统一绑定 data-action 事件委托
+    bindActions();
   }
-
-  // 暴露全局函数
-  window.rerollDish = rerollDish;
-  window.goToList = goToList;
-  window.switchTab = switchTab;
-  window.openCityPage = openCityPage;
-  window.closeCityPage = closeCityPage;
-  window.selectCity = selectCity;
-  window.openDetail = openDetail;
-  window.closeDetail = closeDetail;
-  window.copyAddress = copyAddress;
 
   // 启动
   if (document.readyState === 'loading') {

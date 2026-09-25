@@ -1,0 +1,27 @@
+# 构建产物
+builds/
+*.zip
+
+# 环境变量 / 密钥
+.env
+
+# 开发服务器 / 工具脚本
+dev-server
+dev-server.rs
+serve.sh
+pack.sh
+fetch_addresses.py
+
+# 文档
+README.md
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

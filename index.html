@@ -27,7 +27,7 @@
               小齐的私藏食单 · 治愈你的每一餐选择困难
             </p>
           </div>
-          <button class="city-btn" id="city-btn-home" onclick="openCityPage()">
+          <button class="city-btn" id="city-btn-home" data-action="open-city">
             <span class="city-btn__icon">📍</span>
             <span class="city-btn__text" id="current-city-name">广州</span>
             <span class="city-btn__arrow">▾</span>
@@ -101,12 +101,12 @@
 
         <!-- 操作按钮 -->
         <div class="draw-actions">
-          <button class="draw-btn" onclick="rerollDish()">
+          <button class="draw-btn" data-action="reroll">
             <span class="draw-btn__icon">🎰</span>
-            <span>换一家（摇一摇）</span>
+            <span>换一家</span>
             <span class="draw-btn__pulse"></span>
           </button>
-          <div class="draw-link" onclick="goToList()">
+          <div class="draw-link" data-action="go-list">
             <span class="draw-link__text">📖 翻翻小齐的全部食单 (共<span id="home-count">8</span>家) →</span>
             <span class="draw-link__underline"></span>
           </div>
@@ -174,7 +174,7 @@
               </div>
               <p class="city-drawer__subtitle">看小齐在各个城市的私藏脚步与心头好</p>
             </div>
-            <div class="city-drawer__close" onclick="closeCityPage()">✕</div>
+            <div class="city-drawer__close" data-action="close-city">✕</div>
           </div>
 
           <!-- 当前城市 -->
@@ -217,15 +217,15 @@
     <!-- 底部胶囊导航 -->
     <nav class="tabbar" id="tabbar">
       <div class="tabbar__inner">
-        <div class="tabbar__item active" data-tab="home" onclick="switchTab('home')">
+        <div class="tabbar__item active" data-tab="home" data-action="switch-tab">
           <span class="tabbar__icon">🎰</span>
           <span>今天吃啥</span>
         </div>
-        <div class="tabbar__item" data-tab="list" onclick="switchTab('list')">
+        <div class="tabbar__item" data-tab="list" data-action="switch-tab">
           <span class="tabbar__icon">📖</span>
           <span>全部食单</span>
         </div>
-        <div class="tabbar__item" data-tab="city" onclick="openCityPage()">
+        <div class="tabbar__item" data-tab="city" data-action="open-city">
           <span class="tabbar__icon">🗺️</span>
           <span>足迹地图</span>
         </div>
@@ -233,13 +233,13 @@
     </nav>
 
     <!-- 餐厅详情弹层 -->
-    <div class="detail-overlay" id="detail-overlay" onclick="closeDetail()"></div>
+    <div class="detail-overlay" id="detail-overlay" data-action="close-detail"></div>
     <div class="detail-sheet" id="detail-sheet">
       <div class="detail-sheet__tape">
         <div class="detail-sheet__tape-line"></div>
       </div>
       <div class="detail-sheet__drag-bar"></div>
-      <div class="detail-sheet__close" onclick="closeDetail()">✕</div>
+      <div class="detail-sheet__close" data-action="close-detail">✕</div>
       <div class="detail-sheet__content" id="detail-content"></div>
     </div>
 

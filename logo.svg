@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <clipPath id="roundedClip">
+      <rect x="0" y="0" width="128" height="128" rx="8" ry="8" />
+    </clipPath>
+    <linearGradient id="warmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8C42" />
+      <stop offset="100%" stop-color="#FF5722" />
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#FF5722" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Group clipped to 128x128 with rx="8" border radius: completely filling canvas, no white padding margins -->
+  <g clip-path="url(#roundedClip)">
+    <!-- Full-bleed background card fill with delicate subtle border tone -->
+    <rect x="0" y="0" width="128" height="128" fill="#FFFDF9" stroke="#EFE5D8" stroke-width="2" />
+
+    <!-- Tape accent on top of card: centered at x=64, y=0 to 14 -->
+    <rect x="38" y="0" width="52" height="14" rx="2" fill="#FFEAA7" opacity="0.9" />
+
+    <!-- Symmetrical warm gradient circle: centered at cx=64, cy=66, radius=38 -->
+    <circle cx="64" cy="66" r="38" fill="url(#warmGrad)" filter="url(#softShadow)" />
+
+    <!-- Symmetrical bowl: perfectly centered on x=64, bottom at y=85, width=40 (from 44 to 84) -->
+    <path d="M44 64 C44 78 52 86 64 86 C76 86 84 78 84 64 Z" fill="#FFFDF9" />
+
+    <!-- Symmetrical steam lines centered at x=64 -->
+    <!-- Center vertical steam line -->
+    <path d="M64 47 Q64 39 64 34" stroke="#FFFDF9" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- Left steam line (mirrored) -->
+    <path d="M54 48 Q51 40 55 35" stroke="#FFFDF9" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- Right steam line (mirrored) -->
+    <path d="M74 48 Q77 40 73 35" stroke="#FFFDF9" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+    <!-- Symmetrical side accent sparkle dots -->
+    <circle cx="26" cy="66" r="3.2" fill="#FFB703" />
+    <circle cx="102" cy="66" r="3.2" fill="#FFB703" />
+  </g>
+
+  <!-- Outer stroke with rx="8" to ensure crisp edge -->
+  <rect x="0" y="0" width="128" height="128" rx="8" ry="8" fill="none" stroke="#E8DED0" stroke-width="1.5" />
+</svg>

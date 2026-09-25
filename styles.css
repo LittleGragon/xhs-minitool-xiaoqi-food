@@ -194,7 +194,8 @@ input, textarea {
 .main {
   flex: 1;
   width: 100%;
-  padding-top: env(safe-area-inset-top, 0);
+  padding-top: 0;
+  padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
   padding-bottom: 88px;
   overflow-y: auto;
   position: relative;
@@ -280,7 +281,10 @@ input, textarea {
 /* 圆点网格背景 */
 .dot-grid {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   pointer-events: none;
   opacity: 0.45;
   background-image: radial-gradient(var(--color-outline-variant) 0.75px, transparent 0.75px);
@@ -564,7 +568,10 @@ input, textarea {
 
 .draw-emoji-glow {
   position: absolute;
-  inset: 8px;
+  top: 8px;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
   border-radius: 50%;
   background: rgba(246, 226, 159, 0.6);
   filter: blur(12px);
@@ -573,7 +580,10 @@ input, textarea {
 
 .draw-emoji-plate {
   position: absolute;
-  inset: 12px;
+  top: 12px;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
   border-radius: 50%;
   background: var(--color-surface-container-lowest);
   box-shadow: var(--shadow-sm);
@@ -829,11 +839,12 @@ input, textarea {
 
 /* ===== 食单列表页 ===== */
 .list-page {
-  padding-bottom: var(--sp-lg);
+  /* 设计稿：父容器 px-margin，分类区用 -mx-margin 通栏滚动 */
+  padding: 0 var(--sp-margin) var(--sp-lg);
 }
 
 .list-header {
-  padding: var(--sp-sm) var(--sp-margin) var(--sp-sm);
+  padding: var(--sp-sm) 0;
   display: flex;
   flex-direction: column;
   gap: var(--sp-sm);
@@ -919,7 +930,7 @@ input, textarea {
 
 /* 搜索框 */
 .list-search {
-  margin: 16px var(--sp-margin) 12px;
+  margin: 16px 0 12px;
 }
 
 .list-search__input {
@@ -1001,7 +1012,7 @@ input, textarea {
 
 /* 餐厅卡片列表 */
 .rest-list {
-  padding: 0 var(--sp-margin);
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1589,7 +1600,7 @@ input, textarea {
   font-weight: 500;
 }
 
-/* ===== 招牌必点列表 ===== */
+/* ===== 小齐推荐列表 ===== */
 .dish-list {
   display: flex;
   flex-direction: column;
@@ -1836,7 +1847,10 @@ input, textarea {
 /* ===== 城市选择页 ===== */
 .city-page {
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 40;
   background: var(--color-surface);
   overflow: hidden;
@@ -1862,7 +1876,10 @@ input, textarea {
 
 .city-mask {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: rgba(27, 28, 26, 0.4);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
@@ -1878,7 +1895,8 @@ input, textarea {
   background: var(--color-surface-container-lowest);
   border-radius: 28px 28px 0 0;
   box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.12);
-  padding: 12px var(--sp-margin) calc(24px + env(safe-area-inset-bottom, 0));
+  padding: 12px var(--sp-margin) 24px;
+  padding-bottom: calc(24px + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)));
   max-height: 82%;
   overflow-y: auto;
   display: flex;
@@ -2245,11 +2263,13 @@ input, textarea {
 
 /* ===== 安全区 ===== */
 .pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: 0;
+  padding-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
 }
 
 .pt-safe {
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: 0;
+  padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
 }
 
 /* ===== 配置开关：隐藏评分 ===== */
@@ -2273,4 +2293,151 @@ body.hide-price .rest-card__price,
 body.hide-price .dish-item__price,
 body.hide-price .detail-hero__badge--price {
   display: none !important;
+}
+
+/* ===== Chrome 61 基线：Flex gap 不可用时的 margin 回退（由 JS 行为检测切换 .no-flex-gap） ===== */
+.no-flex-gap .tabbar__item > * + * { margin-left: 6px; }
+.no-flex-gap .home-header > * + * { margin-left: 8px; }
+.no-flex-gap .home-title-group > * + * { margin-top: 2px; }
+.no-flex-gap .home-subtitle > * + * { margin-left: 6px; }
+.no-flex-gap .city-btn > * + * { margin-left: 4px; }
+.no-flex-gap .draw-meta { margin-bottom: calc(-1 * 8px); }
+.no-flex-gap .draw-meta > * { margin: 0 8px 8px 0; }
+.no-flex-gap .draw-meta__badge > * + * { margin-left: 4px; }
+.no-flex-gap .draw-quote > * + * { margin-top: 6px; }
+.no-flex-gap .draw-tags { margin-bottom: calc(-1 * 6px); }
+.no-flex-gap .draw-tags > * { margin: 0 6px 6px 0; }
+.no-flex-gap .draw-counter > * + * { margin-left: 6px; }
+.no-flex-gap .draw-actions > * + * { margin-top: 16px; }
+.no-flex-gap .draw-btn > * + * { margin-left: 10px; }
+.no-flex-gap .draw-link__text > * + * { margin-left: 4px; }
+.no-flex-gap .list-header > * + * { margin-top: 8px; }
+.no-flex-gap .list-title-row { margin-bottom: calc(-1 * 8px); }
+.no-flex-gap .list-title-row > * { margin: 0 8px 8px 0; }
+.no-flex-gap .list-city-badge > * + * { margin-left: 4px; }
+.no-flex-gap .list-note__content > * + * { margin-left: 8px; }
+.no-flex-gap .list-filters__scroll > * + * { margin-left: 8px; }
+.no-flex-gap .rest-list > * + * { margin-top: 16px; }
+.no-flex-gap .rest-card__top > * + * { margin-left: 12px; }
+.no-flex-gap .rest-card__meta > * + * { margin-left: 8px; }
+.no-flex-gap .rest-card__rating > * + * { margin-left: 2px; }
+.no-flex-gap .rest-card__tags { margin-bottom: calc(-1 * 6px); }
+.no-flex-gap .rest-card__tags > * { margin: 0 6px 6px 0; }
+.no-flex-gap .rest-card__note > * + * { margin-left: 6px; }
+.no-flex-gap .list-footer__badge > * + * { margin-left: 6px; }
+.no-flex-gap .detail-sheet__content > * + * { margin-top: 24px; }
+.no-flex-gap .detail-hero__badges { margin-bottom: calc(-1 * 6px); }
+.no-flex-gap .detail-hero__badges > * { margin: 0 6px 6px 0; }
+.no-flex-gap .detail-hero__badge--open > * + * { margin-left: 4px; }
+.no-flex-gap .detail-diary__header > * + * { margin-left: 12px; }
+.no-flex-gap .detail-diary__titles > * + * { margin-top: 2px; }
+.no-flex-gap .detail-section__title > * + * { margin-left: 6px; }
+.no-flex-gap .dish-list > * + * { margin-top: 8px; }
+.no-flex-gap .dish-item > * + * { margin-left: 12px; }
+.no-flex-gap .dish-item__left > * + * { margin-left: 12px; }
+.no-flex-gap .dish-item__info > * + * { margin-top: 3px; }
+.no-flex-gap .dish-item__name-row { margin-bottom: calc(-1 * 6px); }
+.no-flex-gap .dish-item__name-row > * { margin: 0 6px 6px 0; }
+.no-flex-gap .dish-item__right > * + * { margin-top: 2px; }
+.no-flex-gap .detail-info-card > * + * { margin-top: 10px; }
+.no-flex-gap .detail-info__item > * + * { margin-left: 8px; }
+.no-flex-gap .detail-info__content > * + * { margin-top: 2px; }
+.no-flex-gap .detail-info__copy-btn > * + * { margin-left: 4px; }
+.no-flex-gap .detail-action > * + * { margin-top: 8px; }
+.no-flex-gap .detail-action__btn > * + * { margin-left: 8px; }
+.no-flex-gap .city-page__bg > * + * { margin-top: 16px; }
+.no-flex-gap .city-drawer > * + * { margin-top: 16px; }
+.no-flex-gap .city-drawer__title-group > * + * { margin-top: 2px; }
+.no-flex-gap .city-drawer__title-row > * + * { margin-left: 8px; }
+.no-flex-gap .city-active-card > * + * { margin-top: 10px; }
+.no-flex-gap .city-active-card__left > * + * { margin-left: 8px; }
+.no-flex-gap .city-active-card__active-badge > * + * { margin-left: 4px; }
+.no-flex-gap .city-active-card__tags { margin-bottom: calc(-1 * 6px); }
+.no-flex-gap .city-active-card__tags > * { margin: 0 6px 6px 0; }
+.no-flex-gap .city-other__list > * + * { margin-top: 8px; }
+.no-flex-gap .city-item__left > * + * { margin-left: 12px; }
+.no-flex-gap .city-item__name-row > * + * { margin-left: 6px; }
+.no-flex-gap .toast > * + * { margin-left: 6px; }
+.no-flex-gap .empty-state > * + * { margin-top: 12px; }
+
+/* ===== 复制地址弹层（容器禁用剪贴板 API，引导手动复制） ===== */
+.copy-sheet {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 120;
+  display: none;
+}
+
+.copy-sheet.active {
+  display: block;
+}
+
+.copy-sheet__mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(48, 49, 47, 0.45);
+}
+
+.copy-sheet__panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 64px);
+  max-width: 340px;
+  background: var(--color-surface-container-lowest);
+  border-radius: var(--r-2xl);
+  padding: 24px 20px 20px;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.copy-sheet__title {
+  font-size: var(--fs-headline-sm);
+  font-weight: 700;
+  color: var(--color-on-surface);
+  text-align: center;
+}
+
+.copy-sheet__hint {
+  margin-top: 6px;
+  font-size: var(--fs-body-sm);
+  color: var(--color-on-surface-variant);
+  text-align: center;
+}
+
+.copy-sheet__text {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface-container);
+  font-size: var(--fs-body-md);
+  line-height: 1.6;
+  color: var(--color-on-surface);
+  user-select: text;
+  -webkit-user-select: text;
+  word-break: break-all;
+}
+
+.copy-sheet__done {
+  margin-top: 16px;
+  height: 44px;
+  border: none;
+  border-radius: var(--r-full);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+  font-size: var(--fs-body-md);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copy-sheet__done:active {
+  transform: scale(0.97);
 }
