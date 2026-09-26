@@ -399,18 +399,29 @@ input, textarea {
   background: var(--color-primary-container);
 }
 
+.home-city-row {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
 .city-btn {
   flex-shrink: 0;
   height: 32px;
   padding: 0 12px;
   border-radius: var(--r-full);
-  background: var(--color-surface-container-low);
+  background: var(--color-secondary-fixed);
+  color: var(--color-on-secondary-fixed);
+  border: 1px dashed #e2cf8a;
   display: flex;
   align-items: center;
-  gap: 4px;
-  box-shadow: var(--shadow-xs);
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: transform var(--dur-fast) var(--ease-out);
+  font-family: inherit;
+  transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast);
 }
 
 .city-btn:active {
@@ -419,17 +430,20 @@ input, textarea {
 
 .city-btn__icon {
   font-size: 14px;
+  line-height: 1;
 }
 
 .city-btn__text {
-  font-size: var(--fs-label-md);
+  font-size: var(--fs-label-lg);
   font-weight: 700;
-  color: var(--color-on-surface);
+  color: var(--color-on-secondary-fixed);
 }
 
 .city-btn__arrow {
-  font-size: 15px;
-  color: var(--color-on-surface-variant);
+  font-size: 10px;
+  line-height: 1;
+  color: var(--color-secondary);
+  margin-left: 2px;
 }
 
 /* 翻牌卡片区域 */
@@ -850,12 +864,9 @@ input, textarea {
   gap: var(--sp-sm);
 }
 
-.list-title-row {
+.list-title-group {
   display: flex;
-  align-items: center;
-  gap: var(--sp-sm);
-  flex-wrap: wrap;
-  margin-bottom: 4px;
+  flex-direction: column;
 }
 
 .list-title {
@@ -865,22 +876,60 @@ input, textarea {
   color: var(--color-on-surface);
 }
 
-.list-city-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: var(--r-full);
-  background: var(--color-primary-fixed);
-  color: var(--color-on-primary-fixed);
+.list-subtitle {
+  margin-top: 2px;
   font-size: var(--fs-label-sm);
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
+  letter-spacing: 0.04em;
+  color: var(--color-outline);
 }
 
-.list-city-badge__icon {
-  font-size: 13px;
+/* 城市选择胶囊（手账风格：奶油黄底 + 虚线描边） */
+.list-city-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.list-city-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--r-full);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  border: 1px dashed var(--color-outline);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.list-city-btn:active {
+  transform: scale(0.97);
+}
+
+.list-city-btn__pin {
+  font-size: 16px;
   color: var(--color-primary);
+}
+
+.list-city-btn__arrow {
+  font-size: 14px;
+  color: var(--color-on-secondary-container);
+  opacity: 0.7;
+}
+
+.list-city-count {
+  font-size: var(--fs-label-sm);
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+  opacity: 0.8;
 }
 
 /* 主理人寄语便签 */
@@ -1954,24 +2003,6 @@ input, textarea {
   color: var(--color-on-surface-variant);
 }
 
-.city-drawer__close {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--r-full);
-  background: var(--color-surface-container-low);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-on-surface-variant);
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform var(--dur-fast);
-}
-
-.city-drawer__close:active {
-  transform: scale(0.92);
-}
-
 /* 当前城市卡片 */
 .city-active-card {
   position: relative;
@@ -2207,6 +2238,110 @@ input, textarea {
   font-size: var(--fs-body-md);
 }
 
+/* 城市卡片选中态 */
+.city-item--selected {
+  background: rgba(255, 219, 208, 0.5);
+  box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+.city-item--selected .city-item__name {
+  color: var(--color-primary);
+}
+
+.city-item--selected .city-item__arrow {
+  color: var(--color-primary);
+}
+
+/* 小齐的食单便签 */
+.city-note {
+  position: relative;
+  width: 100%;
+  padding: 16px 14px 14px;
+  border-radius: var(--r-xl);
+  background: rgba(246, 226, 159, 0.4);
+  color: var(--color-on-secondary-container);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  box-shadow: var(--shadow-xs);
+}
+
+.city-note__tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 16px;
+  background: var(--color-surface-container-highest);
+  opacity: 0.9;
+  border-radius: 2px;
+  box-shadow: var(--shadow-xs);
+}
+
+.city-note__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+
+.city-note__icon {
+  font-size: 15px;
+  color: var(--color-secondary);
+}
+
+.city-note__label {
+  font-size: var(--fs-label-sm);
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.city-note__text {
+  font-size: var(--fs-body-sm);
+  line-height: 1.6;
+  text-align: center;
+  color: var(--color-on-secondary-container);
+}
+
+/* 确定切换城市按钮 */
+.city-confirm-wrap {
+  width: 100%;
+  padding-top: 4px;
+}
+
+.city-confirm-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--r-full);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: inherit;
+  font-size: var(--fs-label-lg);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(171, 53, 0, 0.2);
+  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast);
+}
+
+.city-confirm-btn:active {
+  transform: scale(0.98);
+}
+
+.city-confirm-btn__icon {
+  font-size: 18px;
+}
+
+.city-confirm-btn.is-done {
+  background: var(--color-tertiary);
+}
+
 /* ===== Toast ===== */
 .toast {
   position: fixed;
@@ -2312,9 +2447,8 @@ body.hide-price .detail-hero__badge--price {
 .no-flex-gap .draw-btn > * + * { margin-left: 10px; }
 .no-flex-gap .draw-link__text > * + * { margin-left: 4px; }
 .no-flex-gap .list-header > * + * { margin-top: 8px; }
-.no-flex-gap .list-title-row { margin-bottom: calc(-1 * 8px); }
-.no-flex-gap .list-title-row > * { margin: 0 8px 8px 0; }
-.no-flex-gap .list-city-badge > * + * { margin-left: 4px; }
+.no-flex-gap .list-city-row > * + * { margin-left: 8px; }
+.no-flex-gap .list-city-btn > * + * { margin-left: 6px; }
 .no-flex-gap .list-note__content > * + * { margin-left: 8px; }
 .no-flex-gap .list-filters__scroll > * + * { margin-left: 8px; }
 .no-flex-gap .rest-list > * + * { margin-top: 16px; }
@@ -2357,6 +2491,9 @@ body.hide-price .detail-hero__badge--price {
 .no-flex-gap .city-other__list > * + * { margin-top: 8px; }
 .no-flex-gap .city-item__left > * + * { margin-left: 12px; }
 .no-flex-gap .city-item__name-row > * + * { margin-left: 6px; }
+.no-flex-gap .city-note > * + * { margin-top: 4px; }
+.no-flex-gap .city-note__head > * + * { margin-left: 6px; }
+.no-flex-gap .city-confirm-btn > * + * { margin-left: 8px; }
 .no-flex-gap .toast > * + * { margin-left: 6px; }
 .no-flex-gap .empty-state > * + * { margin-top: 12px; }
 

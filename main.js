@@ -12,7 +12,8 @@
     searchQuery: '',
     flipCount: 3,
     currentDishIndex: 0,
-    detailRestaurantId: null
+    detailRestaurantId: null,
+    pendingCity: null
   };
 
   // ===== 工具函数 =====
@@ -33,6 +34,13 @@
     return XIAOQI_DATA.restaurants.filter(function(r) {
       return r.city === state.currentCity;
     });
+  }
+
+  // 随机 pick 一家店的索引（初始化 / 切换城市时调用）
+  function pickRandomDishIndex() {
+    var list = getRestaurants();
+    if (list.length === 0) return 0;
+    return Math.floor(Math.random() * list.length);
   }
 
   function getFilteredRestaurants() {
@@ -352,7 +360,8 @@
     });
 
     container.innerHTML = otherCities.map(function(city) {
-      return '<button class="city-item" data-action="select-city" data-city="' + city.key + '">' +
+      var selected = city.key === state.pendingCity ? ' city-item--selected' : '';
+      return '<button class="city-item' + selected + '" data-action="pick-city" data-city="' + city.key + '">' +
         '<div class="city-item__left">' +
           '<div class="city-item__emoji">' + city.emoji + '</div>' +
           '<div class="city-item__info">' +
@@ -370,6 +379,20 @@
     // 如果只有当前城市有数据，显示提示
     if (otherCities.length === 0) {
       container.innerHTML = '<div class="city-empty">更多城市正在探索中…</div>';
+    }
+  }
+
+  // 更新「确定切换城市」按钮文案与状态
+  function updateConfirmBtn() {
+    var btn = $('city-confirm-btn');
+    var text = $('city-confirm-text');
+    if (!btn || !text) return;
+    if (state.pendingCity && state.pendingCity !== state.currentCity) {
+      text.textContent = '确定切换至 ' + getCityName(state.pendingCity);
+      btn.classList.remove('is-done');
+    } else {
+      text.textContent = '确定切换城市';
+      btn.classList.remove('is-done');
     }
   }
 
@@ -407,10 +430,12 @@
   }
 
   function openCityPage() {
+    state.pendingCity = null;
     $('page-city').classList.add('active');
     $('tabbar').style.display = 'none';
     $('main').style.paddingBottom = '0';
     renderCityList();
+    updateConfirmBtn();
     $('main').scrollTop = 0;
   }
 
@@ -420,16 +445,31 @@
     $('main').style.paddingBottom = '88px';
   }
 
-  function selectCity(key) {
-    state.currentCity = key;
-    var name = getCityName(key);
+  // 点选城市卡片：仅高亮，不立即切换
+  function pickCity(key) {
+    state.pendingCity = key;
+    renderCityList();
+    updateConfirmBtn();
+  }
+
+  // 点击「确定切换城市」：应用选择并关闭抽屉
+  function confirmCity() {
+    var target = state.pendingCity;
+    if (!target || target === state.currentCity) {
+      closeCityPage();
+      return;
+    }
+
+    state.currentCity = target;
+    var name = getCityName(target);
     var count = getRestaurants().length;
     $('current-city-name').textContent = name;
-    $('list-city-name').textContent = name + ' · ' + count + '家精选';
+    $('list-city-name').textContent = name;
+    $('list-total-count').textContent = count;
     $('home-count').textContent = count;
 
     // 更新当前城市卡片
-    var city = XIAOQI_DATA.cities.find(function(c) { return c.key === key; });
+    var city = XIAOQI_DATA.cities.find(function(c) { return c.key === target; });
     if (city) {
       var activeCard = document.querySelector('.city-active-card__name');
       if (activeCard) activeCard.textContent = city.name;
@@ -443,8 +483,9 @@
       }
     }
 
-    // 重新渲染数据
-    state.currentDishIndex = 0;
+    // 重新渲染数据（随机 pick 新城市的一家店）
+    state.pendingCity = null;
+    state.currentDishIndex = pickRandomDishIndex();
     state.flipCount = 0;
     state.searchQuery = '';
     state.currentCategory = 'all';
@@ -455,6 +496,13 @@
     var searchInput = $('search-input');
     if (searchInput) searchInput.value = '';
 
+    // 按钮反馈：已切换至 XX
+    var btn = $('city-confirm-btn');
+    var text = $('city-confirm-text');
+    if (btn && text) {
+      text.textContent = '已切换至 ' + name + ' ✨';
+      btn.classList.add('is-done');
+    }
     showToast('已切换到 ' + name);
     setTimeout(function() {
       closeCityPage();
@@ -559,8 +607,10 @@
         if (r) copyAddress(r.address + ' ' + r.name);
       } else if (action === 'close-copy') {
         closeCopySheet();
-      } else if (action === 'select-city') {
-        selectCity(el.dataset.city);
+      } else if (action === 'pick-city') {
+        pickCity(el.dataset.city);
+      } else if (action === 'confirm-city') {
+        confirmCity();
       }
     });
   }
@@ -602,11 +652,15 @@
 
     // 设置城市名
     $('current-city-name').textContent = getCityName(state.currentCity);
-    $('list-city-name').textContent = getCityName(state.currentCity) + ' · ' + getRestaurants().length + '家精选';
+    $('list-city-name').textContent = getCityName(state.currentCity);
+    $('list-total-count').textContent = getRestaurants().length;
     $('home-count').textContent = getRestaurants().length;
 
     // 渲染分类 chips
     renderFilterChips();
+
+    // 随机 pick 一家店作为初始推荐
+    state.currentDishIndex = pickRandomDishIndex();
 
     // 渲染首页
     renderDrawCard();

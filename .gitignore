@@ -11,6 +11,11 @@ dev-server.rs
 serve.sh
 pack.sh
 fetch_addresses.py
+fetch_addresses_batch.py
+notion_food_sync.py
+
+# 断点文件
+.address_checkpoint.json
 
 # 文档
 README.md

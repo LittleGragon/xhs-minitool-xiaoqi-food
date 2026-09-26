@@ -22,16 +22,18 @@
               <div class="home-title-highlight"></div>
               <h1 class="home-title">小齐今天吃什么</h1>
             </div>
+            <div class="home-city-row">
+              <button class="city-btn" id="city-btn-home" data-action="open-city" type="button" aria-label="切换城市，当前广州">
+                <span class="city-btn__icon">📍</span>
+                <span class="city-btn__text" id="current-city-name">广州</span>
+                <span class="city-btn__arrow">▼</span>
+              </button>
+            </div>
             <p class="home-subtitle">
               <span class="home-subtitle-dot"></span>
               小齐的私藏食单 · 治愈你的每一餐选择困难
             </p>
           </div>
-          <button class="city-btn" id="city-btn-home" data-action="open-city">
-            <span class="city-btn__icon">📍</span>
-            <span class="city-btn__text" id="current-city-name">广州</span>
-            <span class="city-btn__arrow">▾</span>
-          </button>
         </div>
 
         <!-- 翻牌卡片 -->
@@ -116,12 +118,17 @@
       <!-- 列表页：全部食单 -->
       <section class="page list-page" id="page-list">
         <div class="list-header">
-          <div class="list-title-row">
+          <div class="list-title-group">
             <h1 class="list-title">小齐的私藏食单</h1>
-            <span class="list-city-badge">
-              <span class="list-city-badge__icon">📍</span>
-              <span id="list-city-name">广州 · 8家精选</span>
-            </span>
+            <p class="list-subtitle">✨ 放心抄作业 · 自费真吃私藏指南</p>
+          </div>
+          <div class="list-city-row">
+            <button class="list-city-btn" type="button" data-action="open-city">
+              <span class="list-city-btn__pin">📍</span>
+              <span id="list-city-name">广州</span>
+              <span class="list-city-btn__arrow">▾</span>
+            </button>
+            <span class="list-city-count">共收录 <span id="list-total-count">0</span> 家精选</span>
           </div>
           <div class="list-note">
             <div class="list-note__tape"></div>
@@ -163,18 +170,17 @@
             <div style="font-size:12px;color:var(--color-outline);margin-top:4px;">越秀区 · 龟岗大马路</div>
           </div>
         </div>
-        <div class="city-mask"></div>
+        <div class="city-mask" data-action="close-city"></div>
         <div class="city-drawer" id="city-drawer">
           <div class="city-drawer__handle"></div>
           <div class="city-drawer__header">
             <div class="city-drawer__title-group">
               <div class="city-drawer__title-row">
-                <h2 class="city-drawer__title">切换城市 🗺️</h2>
+                <h2 class="city-drawer__title">小齐的足迹地图 🗺️</h2>
                 <span class="city-drawer__badge">足迹手账</span>
               </div>
-              <p class="city-drawer__subtitle">看小齐在各个城市的私藏脚步与心头好</p>
+              <p class="city-drawer__subtitle">看小齐在各个城市的私藏脚步与心头好 · 切换城市</p>
             </div>
-            <div class="city-drawer__close" data-action="close-city">✕</div>
           </div>
 
           <!-- 当前城市 -->
@@ -208,6 +214,24 @@
               <span class="city-other__hint">点击卡片即可切换</span>
             </div>
             <div class="city-other__list" id="city-list"></div>
+          </div>
+
+          <!-- 小齐的食单便签 -->
+          <div class="city-note">
+            <div class="city-note__tape"></div>
+            <div class="city-note__head">
+              <span class="city-note__icon">✎</span>
+              <span class="city-note__label">小齐的食单便签</span>
+            </div>
+            <p class="city-note__text">“小齐目前主要生活在广州，其他城市的食单也都是我出差和旅行时亲自暴走吃出来的，持续更新中～”</p>
+          </div>
+
+          <!-- 确定切换城市 -->
+          <div class="city-confirm-wrap">
+            <button class="city-confirm-btn" id="city-confirm-btn" data-action="confirm-city">
+              <span id="city-confirm-text">确定切换城市</span>
+              <span class="city-confirm-btn__icon">✓</span>
+            </button>
           </div>
         </div>
       </section>

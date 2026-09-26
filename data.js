@@ -10,6 +10,7 @@ var XIAOQI_DATA = {
     { key: 'shantou', name: '汕头', emoji: '🏝️', count: 2, tags: ['烧鸟居酒屋', '海边咖啡'], active: false },
     { key: 'macau', name: '澳门', emoji: '🎰', count: 2, tags: ['葡国菜', '云吞面'], active: false },
     { key: 'shunde', name: '顺德', emoji: '🐟', count: 1, tags: ['海鲜大排档', '鱼生之乡'], active: false },
+    { key: 'ningbo', name: '宁波', emoji: '🚢', count: 2, tags: ['东海海鲜', '汤圆之城'], active: false },
     { key: 'shanghai', name: '上海', emoji: '🏙️', count: 0, tags: ['法租界咖啡', '本帮小馆'], active: false },
     { key: 'beijing', name: '北京', emoji: '🏯', count: 0, tags: ['胡同私厨', '京味儿'], active: false },
     { key: 'chengdu', name: '成都', emoji: '🐼', count: 0, tags: ['火锅天堂', '茶馆小吃'], active: false }
@@ -78,7 +79,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "富士山拉面是小齐的心头好之一，每次去都有新发现～",
-      address: "天河区 · 富士山拉面",
+      address: "广州市花都区新华路102号花都湖公园内",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -118,8 +119,8 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "非常厨房是小齐的心头好之一，每次去都有新发现～",
-      address: "番禺区 · 非常厨房",
-      transport: "",
+      address: "广东省广州市天河区车陂路570-7",
+      transport: "🚇 地铁: 史遇酒店(广州车陂地铁站)(9999m)",
       tips: "",
       city: "guangzhou",
       signature_dishes: []
@@ -158,7 +159,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "马家庄是小齐的心头好之一，每次去都有新发现～",
-      address: "海珠区 · 马家庄",
+      address: "广州市海珠区华洲路广州海珠华洲实验学校北侧约260米",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -203,11 +204,13 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "添牛加粿是小齐的心头好之一，每次去都有新发现～",
-      address: "海珠区 · 添牛加粿",
+      address: "广州市从化区蓝田南一巷街口街府前社区东侧约50米",
       transport: "",
       tips: "",
       city: "guangzhou",
-      signature_dishes: []
+      signature_dishes: [
+        { name: "湿炒粿条", tag: "招牌", tag_class: "primary", desc: "", price: 0 }
+      ]
     },
     {
       id: 10,
@@ -413,8 +416,8 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "佬佬餐厅(置业大厦店)是小齐的心头好之一，每次去都有新发现～",
-      address: "番禺区 · 佬佬餐厅(置业大厦店)",
-      transport: "",
+      address: "石夏路288号夏茅金铂广场对面",
+      transport: "🚌 公交: 第十三经济社党群服务站(9999m)",
       tips: "",
       city: "guangzhou",
       signature_dishes: []
@@ -473,7 +476,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "博多舍楽(金利来店)是小齐的心头好之一，每次去都有新发现～",
-      address: "天河区 · 博多舍楽(金利来店)",
+      address: "天河路208号天河城购物中心一层东北塔114号铺天河城一楼东门左转",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -564,7 +567,10 @@ var XIAOQI_DATA = {
       transport: "🚇 地铁: 花城大道 / 妇儿中心\n🚌 公交: 冼村路中 / 冼村路南站",
       tips: "",
       city: "guangzhou",
-      signature_dishes: []
+      signature_dishes: [
+        { name: "糯米饭", tag: "招牌", tag_class: "primary", desc: "", price: 0 },
+        { name: "蒜泥白肉", tag: "必点", tag_class: "error", desc: "", price: 0 }
+      ]
     },
     {
       id: 27,
@@ -580,11 +586,13 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "川盐府·盐帮川菜(员岗店)是小齐的心头好之一，每次去都有新发现～",
-      address: "番禺区 · 川盐府·盐帮川菜(员岗店)",
-      transport: "",
+      address: "广州市番禺区南村镇员岗中路2号",
+      transport: "🚇 地铁: 员岗站(7号线)G口 步行约110m",
       tips: "",
       city: "guangzhou",
-      signature_dishes: []
+      signature_dishes: [
+        { name: "辣子鸡", tag: "招牌", tag_class: "primary", desc: "", price: 0 }
+      ]
     },
     {
       id: 28,
@@ -624,7 +632,9 @@ var XIAOQI_DATA = {
       transport: "🚇 地铁: 二沙岛 / 鹭江",
       tips: "",
       city: "guangzhou",
-      signature_dishes: []
+      signature_dishes: [
+        { name: "马鲛饭", tag: "招牌", tag_class: "primary", desc: "", price: 0 }
+      ]
     },
     {
       id: 30,
@@ -682,8 +692,8 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "乐曼图·泰国餐厅(粤海天地臻味店)是小齐的心头好之一，每次去都有新发现～",
-      address: "天河区 · 乐曼图·泰国餐厅(粤海天地臻味店)",
-      transport: "",
+      address: "建设大马路18号保利时光里南塔二楼",
+      transport: "🚌 公交: 依威能源充电站(保利中环广场)(9999m)",
       tips: "",
       city: "guangzhou",
       signature_dishes: [
@@ -704,7 +714,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "敬茶屋是小齐的心头好之一，每次去都有新发现～",
-      address: "天河区 · 敬茶屋",
+      address: "广东省广州市荔湾区石围塘街道南塘外街2号201铺广州天易茶业广场225D铺",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -815,7 +825,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "友食肉铺是小齐的心头好之一，每次去都有新发现～",
-      address: "番禺区 · 友食肉铺",
+      address: "广州市番禺区兴业大道ACT汽车小镇",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -886,7 +896,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "自造竹升面是小齐的心头好之一，每次去都有新发现～",
-      address: "海珠区 · 自造竹升面",
+      address: "广东省广州市荔湾区龙津西路59号",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -908,7 +918,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "Kats coffee咖期是小齐的心头好之一，每次去都有新发现～",
-      address: "越秀区 · Kats coffee咖期",
+      address: "广东省广州市海珠区龙凤街道海傍内街22号",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -930,7 +940,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "PROOF Pizza& Eatery披萨和小菜是小齐的心头好之一，每次去都有新发现～",
-      address: "海珠区 · PROOF Pizza& Eatery披萨和小菜",
+      address: "秀全街学府路一号B9栋一楼7号01商铺",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -953,8 +963,8 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "辉记烧烤(隔山新街店)是小齐的心头好之一，每次去都有新发现～",
-      address: "海珠区 · 辉记烧烤(隔山新街店)",
-      transport: "",
+      address: "广州市增城区东祠路中天幼儿园北侧约50米",
+      transport: "🚌 公交: 朱村社区微型消防站(9999m)",
       tips: "",
       city: "guangzhou",
       signature_dishes: [
@@ -977,7 +987,7 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "云南姑娘·景颇族手抓饭是小齐的心头好之一，每次去都有新发现～",
-      address: "海珠区 · 云南姑娘·景颇族手抓饭",
+      address: "广州市荔湾区安定首约古桥茶街",
       transport: "",
       tips: "",
       city: "guangzhou",
@@ -1000,10 +1010,54 @@ var XIAOQI_DATA = {
       stamp: "",
       stamp_label: "",
       xiaoqi_said: "",
-      address: "",
+      address: "新港西路161号之18号102铺（近鹭江地铁站B出口）",
       transport: "",
       tips: "",
       city: "guangzhou",
+      signature_dishes: [
+      ]
+    },
+
+    {
+      id: 47,
+      name: "拾之煮物",
+      emoji: "🍜",
+      rating: 0,
+      avg_price: 0,
+      district: "宁波",
+      cuisine: "日料 · 拉面🍜",
+      category: "japanese",
+      tags: [],
+      accent: "secondary",
+      stamp: "",
+      stamp_label: "",
+      xiaoqi_said: "",
+      address: "601路;660路;688路;689路",
+      transport: "",
+      tips: "",
+      city: "ningbo",
+      signature_dishes: [
+      ]
+    },
+
+    {
+      id: 48,
+      name: "仓·CANG",
+      emoji: "🥘",
+      rating: 0,
+      avg_price: 0,
+      district: "宁波",
+      cuisine: "酒吧 · 调酒",
+      category: "cantonese",
+      tags: [],
+      accent: "primary",
+      stamp: "",
+      stamp_label: "",
+      xiaoqi_said: "",
+      address: "宁波市江北区甬江街道倪家堰路160号",
+      transport: "",
+      tips: "",
+      city: "ningbo",
       signature_dishes: [
       ]
     },
